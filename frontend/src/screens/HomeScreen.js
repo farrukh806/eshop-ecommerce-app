@@ -8,13 +8,13 @@ import Message from '../components/Message';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
-	const productList = useSelector((state) => state.productList);
-	const { loading, error, products } = productList;
-	useEffect(() => {
-		dispatch(listProducts());
-	}, [dispatch]);
+	const { loading, error, products } = useSelector(
+		(state) => state.productList
+	);
+	useEffect(() => dispatch(listProducts()), [dispatch]);
+
 	return (
-		<>
+		<div>
 			<h1>Latest Products</h1>
 			{loading ? (
 				<Loader />
@@ -29,7 +29,7 @@ const HomeScreen = () => {
 					))}
 				</Row>
 			)}
-		</>
+		</div>
 	);
 };
 

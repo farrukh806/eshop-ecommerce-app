@@ -4,6 +4,17 @@ main {
 .rating span {
 	margin: 0.1rem;
 }
+h1 {
+	font-size: 1.9rem;
+	padding: 1rem 0;
+	text-transform: uppercase;
+}
+
+h2{
+	font-size: 1.5rem;
+	padding: 0.5rem 0;
+	text-transform: uppercase;
+}
 
 h3 {
 	padding: 1rem 0;
