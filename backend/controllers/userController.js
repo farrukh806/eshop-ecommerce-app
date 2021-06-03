@@ -5,6 +5,10 @@ import User from '../models/user.js';
 // Auth user and get token
 const authUser = expressAsyncHandler(async (req, res) => {
 	const { email, password } = req.body;
+	if (!(email && password)) {
+		res.status(404);
+		throw new Error(`All fields are compulsory`);
+	}
 	const user = await User.findOne({ email });
 	if (user && (await user.matchPassword(password))) {
 		const token = generateToken(user._id);
