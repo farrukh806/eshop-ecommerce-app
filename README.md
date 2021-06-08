@@ -1,2 +1,2 @@
-# proshop-ecommerce-app
+# eshop-ecommerce-app
 # This project is still in development phase...
