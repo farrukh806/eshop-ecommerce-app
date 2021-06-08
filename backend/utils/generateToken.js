@@ -1,4 +1,3 @@
-import { Token } from 'graphql';
 import jwt from 'jsonwebtoken';
 
 const generateToken = (id) => {

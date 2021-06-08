@@ -6,7 +6,7 @@ import User from '../models/user.js';
 const authUser = expressAsyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 	if (!(email && password)) {
-		res.status(404);
+		res.status(400);
 		throw new Error(`All fields are compulsory`);
 	}
 	const user = await User.findOne({ email });
@@ -36,6 +36,28 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 	}
 });
 
+// Update user profile
+const updateUserProfile = expressAsyncHandler(async (req, res) => {
+	const user = await User.findById(req.user.id);
+	if (user) {
+		user.name = req.body.name;
+		user.email = req.body.email;
+		if (req.body.password) user.password = req.body.password;
+		const updatedUser = await user.save();
+		const token = generateToken(updatedUser._id);
+		res.status(200).json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+			token,
+		});
+	} else {
+		res.status(404);
+		throw new Error(`User not found`);
+	}
+});
+
 // Register a new user
 const registerUser = expressAsyncHandler(async (req, res) => {
 	const { name, email, password } = req.body;
@@ -58,4 +80,4 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 	}
 });
 
-export { authUser, getUserProfile, registerUser };
+export { authUser, getUserProfile, registerUser, updateUserProfile };
