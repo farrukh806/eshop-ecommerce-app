@@ -81,4 +81,17 @@ const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
 }) 
 
 
-export { addOrderItems, getOrderById, updateOrderToPaid };
+// Show orders
+const getMyOrders = expressAsyncHandler(async (req, res) => {
+	try {
+		const orders = await Order.find({ user: req.user._id});
+		res.status(200).json(orders);
+	}
+	 catch (error) {
+		 console.log(error);
+		 res.status(500).json({ message : error.message})
+	}
+})
+
+
+export { addOrderItems, getOrderById, updateOrderToPaid,getMyOrders };
