@@ -11,6 +11,7 @@ const PaymentScreen = ({ history, location }) => {
 	const cart = useSelector((state) => state.cart);
 	const { shippingAddress } = cart;
 	if (!shippingAddress) history.push('/shipping');
+	
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(savePaymentMethod(paymentMethod));
@@ -28,7 +29,7 @@ const PaymentScreen = ({ history, location }) => {
 					<Col>
 						<Form.Check
 							type='radio'
-							label='PayPal or Credit Card'
+							label='PayPal'
 							id='PayPal'
 							name='paymentMethod'
 							value='PayPal'
