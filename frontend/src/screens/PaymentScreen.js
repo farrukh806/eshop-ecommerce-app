@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
@@ -9,15 +9,21 @@ const PaymentScreen = ({ history, location }) => {
 	const dispatch = useDispatch();
 	const [paymentMethod, setPaymentMethod] = useState('PayPal');
 	const cart = useSelector((state) => state.cart);
-	const { shippingAddress } = cart;
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } =  userLogin;
+	const { shippingAddress, cartItems } = cart;
 	if (!shippingAddress) history.push('/shipping');
-	
+	else if(!cartItems.length) history.push('/cart');
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(savePaymentMethod(paymentMethod));
 		history.push('/placeorder');
 	};
 
+	useEffect(() => {
+		if(!userInfo)
+		history.push(`/login?redirect=payment`);
+	})
 	return (
 		<FormContainer>
 			<CheckoutSteps step1 step2 step3 />

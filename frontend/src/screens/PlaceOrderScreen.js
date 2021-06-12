@@ -6,20 +6,23 @@ import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import {createOrder} from '../actions/orderActions';
 
-const PlaceOrderScreen = ({history}) => {
+const PlaceOrderScreen = ({history, location}) => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
-    
+    const redirect = location.search ? location.search.split('=')[1] : '/';
+    const { userInfo } = useSelector((state) => state.userLogin);
+    if(!cart.paymentMethod) history.push(`/payment?redirect=${redirect}`)
     cart.itemsPrice = parseFloat((cart.cartItems.reduce((acc, item) => acc + item.price * item.quantity,0)).toFixed(2), 2);
-    cart.shippingPrice = cart.itemsPrice > 100 ? 0 : parseFloat((cart.itemsPrice * 0.02, 2));
+    cart.shippingPrice = cart.cartItems.length !== 0 ? cart.itemsPrice > 100 ? 0 : parseFloat((cart.itemsPrice * 0.02, 2)): 0;
     cart.taxPrice = parseFloat((cart.itemsPrice * 0.02).toFixed(2)); 
     cart.totalPrice = (Number(cart.itemsPrice + cart.shippingPrice + cart.taxPrice)).toFixed(2);
-    
     const orderCreate = useSelector(state => state.orderCreate);
     const {order, success, error} = orderCreate;
 
     useEffect(() => {
-        if(success) history.push(`/order/${order._id}`);
+        if(success) {
+            history.push(`/order/${order._id}`);
+        }
         // eslint-disable-next-line
     }, [history, success])
 
@@ -97,7 +100,7 @@ const PlaceOrderScreen = ({history}) => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping</Col>
-                                    <Col>${cart.shippingPrice}</Col>
+                                     <Col>$ {cart.shippingPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                            
@@ -119,7 +122,7 @@ const PlaceOrderScreen = ({history}) => {
                                 {error && <Message variant='danger'>{error}</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                <Button type='button' className='btn btn-block btn-dark' disabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>Place Order</Button>
+                                <Button type='button' className='btn btn-block btn-dark' disabled={cart.cartItems.length === 0 || !userInfo} onClick={placeOrderHandler}>Place Order</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>

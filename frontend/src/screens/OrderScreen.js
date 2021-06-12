@@ -9,7 +9,7 @@ import axios from 'axios';
 import { getOrderDetails, payOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, location, history }) => {
     const orderId = match.params.id;
 
     const [sdkReady, setSdkReady] = useState(false);
@@ -22,8 +22,8 @@ const OrderScreen = ({ match }) => {
     const orderPay = useSelector(state => state.orderPay);
     const { sucess: successPay, loading: loadingPay } = orderPay;
 
-
-
+    const redirect = location.search ? location.search.split('=')[1] : '/';
+    const { userInfo } = useSelector((state) => state.userLogin);
     if(!loading){
         order.itemsPrice = parseFloat((order.orderItems.reduce((acc, item) => acc + item.price * item.quantity,0)).toFixed(2), 2);
     }
@@ -37,7 +37,7 @@ const OrderScreen = ({ match }) => {
             script.onload = () => setSdkReady(true)
             document.body.appendChild(script);
         }
-
+        if(!userInfo) history.push(`/login?redirect=${redirect}`)
         if(successPay || !order) {
             dispatch({ type: ORDER_PAY_RESET });
             dispatch(getOrderDetails(orderId));
@@ -48,7 +48,7 @@ const OrderScreen = ({ match }) => {
                 setSdkReady(true);
             }
         }
-    }, [dispatch, orderId, successPay, order])
+    }, [dispatch, orderId, successPay, order, history, redirect, location, userInfo])
 
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(orderId, paymentResult))

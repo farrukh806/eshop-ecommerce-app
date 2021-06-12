@@ -5,15 +5,17 @@ import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../actions/cartActions';
 
-const ShippingScreen = ({ history }) => {
+const ShippingScreen = ({ history,location }) => {
 	const dispatch = useDispatch();
+	const { userInfo } = useSelector((state) => state.userLogin);
 	const cart = useSelector((state) => state.cart);
+	const redirect = location.search ? location.search.split('=')[1] : '/';
 	const { shippingAddress } = cart ;
 	const [address, setAddress] = useState(shippingAddress.address);
 	const [city, setCity] = useState(shippingAddress.city);
 	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
 	const [country, setCountry] = useState(shippingAddress.country);
-
+	if(!userInfo) history.push(`/login?redirect=${redirect}`)
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(saveShippingAddress({ address, city, postalCode, country }));
