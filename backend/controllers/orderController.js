@@ -39,59 +39,97 @@ const addOrderItems = expressAsyncHandler(async (req, res) => {
 
 const getOrderById = expressAsyncHandler(async (req, res) => {
 	try {
-		const order = await Order.findById(req.params.id).populate({path:'user', select:'name email'});
-		if(order){
+		const order = await Order.findById(req.params.id).populate({
+			path: 'user',
+			select: 'name email',
+		});
+		if (order) {
 			res.status(200).json(order);
-		}
-		else{
-			res.status(404).json({ message : "Order not found."});
+		} else {
+			res.status(404).json({ message: 'Order not found.' });
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(400).json({ message : error.message });
+		res.status(400).json({ message: error.message });
 	}
-
-})
-
+});
 
 // Update order to paid
 
 const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
 	try {
 		const order = await Order.findById(req.params.id);
-		if(order){
+		if (order) {
 			order.isPaid = true;
 			order.paidAt = Date.now();
 			order.paymentResult = {
 				id: req.body.id,
 				status: req.body.status,
 				update_time: req.body.update_time,
-				email_address: req.body.payer.email_address
+				email_address: req.body.payer.email_address,
 			};
 			const updatedOrder = await order.save();
 			res.status(200).json(updatedOrder);
-		}
-		else{
-			res.status(404).json({ message : "Order not found."});
+		} else {
+			res.status(404).json({ message: 'Order not found.' });
 		}
 	} catch (error) {
 		console.log(error);
-		res.status(400).json({ message : error.message });
+		res.status(400).json({ message: error.message });
 	}
-}) 
-
+});
 
 // Show orders
 const getMyOrders = expressAsyncHandler(async (req, res) => {
 	try {
-		const orders = await Order.find({ user: req.user._id});
+		const orders = await Order.find({ user: req.user._id });
 		res.status(200).json(orders);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: error.message });
 	}
-	 catch (error) {
-		 console.log(error);
-		 res.status(500).json({ message : error.message})
+});
+
+// Show all orders
+const getOrders = expressAsyncHandler(async (req, res) => {
+	try {
+		const orders = await Order.find({}).populate({
+			path: 'user',
+			select: 'name email',
+		});
+		res.status(200).json(orders);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: error.message });
 	}
-})
+});
 
+// Update order to delivered
+const updateOrderToDelivered = expressAsyncHandler(async (req, res) => {
+	try {
+		const order = await Order.findById(req.params.id);
+		if (order) {
+			if (order.isPaid && !order.isDelivered) {
+				order.isDelivered = true;
+				order.deliveredAt = Date.now();
+			}
 
-export { addOrderItems, getOrderById, updateOrderToPaid,getMyOrders };
+			const updatedOrder = await order.save();
+			res.status(200).json(updatedOrder);
+		} else {
+			res.status(404).json({ message: 'Order not found.' });
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(400).json({ message: error.message });
+	}
+});
+
+export {
+	addOrderItems,
+	getOrderById,
+	updateOrderToPaid,
+	updateOrderToDelivered,
+	getMyOrders,
+	getOrders,
+};
