@@ -5,17 +5,21 @@ import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../actions/cartActions';
 
-const ShippingScreen = ({ history,location }) => {
+const ShippingScreen = ({ history, location }) => {
 	const dispatch = useDispatch();
+
 	const { userInfo } = useSelector((state) => state.userLogin);
 	const cart = useSelector((state) => state.cart);
+
 	const redirect = location.search ? location.search.split('=')[1] : '/';
-	const { shippingAddress } = cart ;
+	const { shippingAddress } = cart;
+
 	const [address, setAddress] = useState(shippingAddress.address);
 	const [city, setCity] = useState(shippingAddress.city);
 	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
 	const [country, setCountry] = useState(shippingAddress.country);
-	if(!userInfo) history.push(`/login?redirect=${redirect}`)
+
+	if (!userInfo) history.push(`/login?redirect=${redirect}`);
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(saveShippingAddress({ address, city, postalCode, country }));
@@ -23,7 +27,7 @@ const ShippingScreen = ({ history,location }) => {
 	};
 	return (
 		<FormContainer>
-			<CheckoutSteps step1 step2/>
+			<CheckoutSteps step1 step2 />
 			<h1>Shipping</h1>
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId='address'>
@@ -33,8 +37,7 @@ const ShippingScreen = ({ history,location }) => {
 						placeholder='Enter Address'
 						value={address}
 						onChange={(e) => setAddress(e.target.value)}
-						required
-					></Form.Control>
+						required></Form.Control>
 				</Form.Group>
 
 				<Form.Group controlId='city'>
@@ -44,8 +47,7 @@ const ShippingScreen = ({ history,location }) => {
 						placeholder='Enter City'
 						value={city}
 						onChange={(e) => setCity(e.target.value)}
-						required
-					></Form.Control>
+						required></Form.Control>
 				</Form.Group>
 
 				<Form.Group controlId='postalCode'>
@@ -55,8 +57,7 @@ const ShippingScreen = ({ history,location }) => {
 						placeholder='Enter postal code'
 						value={postalCode}
 						onChange={(e) => setPostalCode(e.target.value)}
-						required
-					></Form.Control>
+						required></Form.Control>
 				</Form.Group>
 
 				<Form.Group controlId='counrty'>
@@ -66,8 +67,7 @@ const ShippingScreen = ({ history,location }) => {
 						placeholder='Enter country'
 						value={country}
 						onChange={(e) => setCountry(e.target.value)}
-						required
-					></Form.Control>
+						required></Form.Control>
 				</Form.Group>
 				<Button type='submit' variant='dark'>
 					Continue

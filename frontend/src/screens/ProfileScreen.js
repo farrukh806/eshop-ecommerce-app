@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getUserDetails,updateUserProfile } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
 
 const ProfileScreen = ({ location, history }) => {
@@ -26,7 +26,7 @@ const ProfileScreen = ({ location, history }) => {
 	const { success } = userUpdateProfile;
 
 	const orderListMy = useSelector((state) => state.orderListMy);
-	const { loading: loadingOrders, orders, error:errorOrders } = orderListMy;
+	const { loading: loadingOrders, orders, error: errorOrders } = orderListMy;
 
 	useEffect(() => {
 		if (!userInfo?.name) {
@@ -64,8 +64,7 @@ const ProfileScreen = ({ location, history }) => {
 							type='text'
 							placeholder='Enter name'
 							value={name}
-							onChange={(e) => setName(e.target.value)}
-						></Form.Control>
+							onChange={(e) => setName(e.target.value)}></Form.Control>
 					</Form.Group>
 
 					<Form.Group controlId='email'>
@@ -74,8 +73,7 @@ const ProfileScreen = ({ location, history }) => {
 							type='email'
 							placeholder='Enter email'
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						></Form.Control>
+							onChange={(e) => setEmail(e.target.value)}></Form.Control>
 					</Form.Group>
 
 					<Form.Group controlId='password'>
@@ -84,8 +82,7 @@ const ProfileScreen = ({ location, history }) => {
 							type='password'
 							placeholder='Enter password'
 							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						></Form.Control>
+							onChange={(e) => setPassword(e.target.value)}></Form.Control>
 					</Form.Group>
 
 					<Form.Group controlId='confirmPassword'>
@@ -94,8 +91,9 @@ const ProfileScreen = ({ location, history }) => {
 							type='password'
 							placeholder='Confirm Password'
 							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
-						></Form.Control>
+							onChange={(e) =>
+								setConfirmPassword(e.target.value)
+							}></Form.Control>
 					</Form.Group>
 					<Button type='submit' variant='dark'>
 						Update
@@ -103,9 +101,12 @@ const ProfileScreen = ({ location, history }) => {
 				</Form>
 			</Col>
 			<Col md={9}>
-				
 				<h2>My Orders</h2>
-				{loadingOrders ? <Loader /> : errorOrders ? <Message variant='danger'>{errorOrders}</Message>: (
+				{loadingOrders ? (
+					<Loader />
+				) : errorOrders ? (
+					<Message variant='danger'>{errorOrders}</Message>
+				) : (
 					<Table striped bordered hover responsive className='table-sm'>
 						<thead>
 							<tr>
@@ -118,28 +119,34 @@ const ProfileScreen = ({ location, history }) => {
 							</tr>
 						</thead>
 						<tbody>
-						{orders.map(order => (
-							<tr key={order._id}>
-								<td>{order._id.toString().toUpperCase()}</td>
-								<td>{order.createdAt.substring(0, 10)}</td>
-								<td>$ {order.totalPrice}</td>
-								<td>
-								{order.isPaid ? order.paidAt.substring(0, 10) : ( 
-									<i className='fas fa-times' style={{ color: 'red'}} />
-								)}
-								</td>
-								<td>
-									{order.isDelivered ? order.deliveredAt.substring(0, 10): ( 
-									<i className='fas fa-times' style={{ color: 'red'}} />
-								)}
-								</td>
-								<td>
-									<LinkContainer to={`/order/${order._id}`} > 
-										<Button className='btn-sm'variant='light'>Details</Button>
-									</LinkContainer>
-								</td>
-							</tr>
-						))}
+							{orders.map((order) => (
+								<tr key={order._id}>
+									<td>{order._id.toString().toUpperCase()}</td>
+									<td>{order.createdAt.substring(0, 10)}</td>
+									<td>$ {order.totalPrice}</td>
+									<td>
+										{order.isPaid ? (
+											order.paidAt.substring(0, 10)
+										) : (
+											<i className='fas fa-times' style={{ color: 'red' }} />
+										)}
+									</td>
+									<td>
+										{order.isDelivered ? (
+											order.deliveredAt.substring(0, 10)
+										) : (
+											<i className='fas fa-times' style={{ color: 'red' }} />
+										)}
+									</td>
+									<td>
+										<LinkContainer to={`/order/${order._id}`}>
+											<Button className='btn-sm' variant='light'>
+												Details
+											</Button>
+										</LinkContainer>
+									</td>
+								</tr>
+							))}
 						</tbody>
 					</Table>
 				)}

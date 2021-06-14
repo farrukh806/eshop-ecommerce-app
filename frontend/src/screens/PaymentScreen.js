@@ -5,15 +5,19 @@ import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { savePaymentMethod } from '../actions/cartActions';
 
-const PaymentScreen = ({ history, location }) => {
+const PaymentScreen = ({ history }) => {
 	const dispatch = useDispatch();
 	const [paymentMethod, setPaymentMethod] = useState('PayPal');
+	
 	const cart = useSelector((state) => state.cart);
-	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo } =  userLogin;
 	const { shippingAddress, cartItems } = cart;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
 	if (!shippingAddress) history.push('/shipping');
-	else if(!cartItems.length) history.push('/cart');
+	else if (!cartItems.length) history.push('/cart');
+	
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(savePaymentMethod(paymentMethod));
@@ -21,9 +25,8 @@ const PaymentScreen = ({ history, location }) => {
 	};
 
 	useEffect(() => {
-		if(!userInfo)
-		history.push(`/login?redirect=payment`);
-	})
+		if (!userInfo) history.push(`/login?redirect=payment`);
+	});
 	return (
 		<FormContainer>
 			<CheckoutSteps step1 step2 step3 />
@@ -40,10 +43,8 @@ const PaymentScreen = ({ history, location }) => {
 							name='paymentMethod'
 							value='PayPal'
 							checked
-							onChange={(e) => setPaymentMethod(e.target.value)}
-						></Form.Check>
+							onChange={(e) => setPaymentMethod(e.target.value)}></Form.Check>
 					</Col>
-					
 				</Form.Group>
 				<Button type='submit' variant='dark'>
 					Continue

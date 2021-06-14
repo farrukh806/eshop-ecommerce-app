@@ -8,7 +8,6 @@ import { register } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 
 const RegisterScreen = ({ location, history }) => {
-	
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -48,8 +47,7 @@ const RegisterScreen = ({ location, history }) => {
 						type='text'
 						placeholder='Enter name'
 						value={name}
-						onChange={(e) => setName(e.target.value)}
-					></Form.Control>
+						onChange={(e) => setName(e.target.value)}></Form.Control>
 				</Form.Group>
 
 				<Form.Group controlId='email'>
@@ -58,8 +56,7 @@ const RegisterScreen = ({ location, history }) => {
 						type='email'
 						placeholder='Enter email'
 						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					></Form.Control>
+						onChange={(e) => setEmail(e.target.value)}></Form.Control>
 				</Form.Group>
 
 				<Form.Group controlId='password'>
@@ -68,8 +65,7 @@ const RegisterScreen = ({ location, history }) => {
 						type='password'
 						placeholder='Enter password'
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					></Form.Control>
+						onChange={(e) => setPassword(e.target.value)}></Form.Control>
 				</Form.Group>
 
 				<Form.Group controlId='confirmPassword'>
@@ -78,8 +74,7 @@ const RegisterScreen = ({ location, history }) => {
 						type='password'
 						placeholder='Confirm Password'
 						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-					></Form.Control>
+						onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
 				</Form.Group>
 				<Button type='submit' variant='dark'>
 					Sign Up

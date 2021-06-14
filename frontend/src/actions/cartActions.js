@@ -42,4 +42,4 @@ export const savePaymentMethod = (paymentMethod) => async (dispatch) => {
 export const cartItemsReset = () => async (dispatch) => {
 	dispatch({ type: CART_RESET });
 	localStorage.setItem('cartItems', []);
-}
+};
