@@ -4722,7 +4722,7 @@ input[type='submit'].btn-block {
 	padding: 0.5rem 0.75rem;
 	margin-left: -1px;
 	line-height: 1.25;
-	color: #d9230f;
+	color: blue;
 	background-color: #fff;
 	border: 1px solid #eee;
 }
@@ -4730,7 +4730,7 @@ input[type='submit'].btn-block {
 	z-index: 2;
 	color: #fff;
 	text-decoration: none;
-	background-color: #d9230f;
+	background-color: var(--info);
 	border-color: #d9230f;
 }
 .page-link:focus {
@@ -4750,8 +4750,8 @@ input[type='submit'].btn-block {
 .page-item.active .page-link {
 	z-index: 3;
 	color: #fff;
-	background-color: #d9230f;
-	border-color: #d9230f;
+	background-color: var(--info);
+	border-color: var(--info);
 }
 .page-item.disabled .page-link {
 	color: #bbb;

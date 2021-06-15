@@ -15,6 +15,7 @@ import {
 	ORDER_DELIVER_RESET,
 	ORDER_PAY_RESET,
 } from '../constants/orderConstants';
+import { cartItemsReset } from '../actions/cartActions';
 
 const OrderScreen = ({ match, location, history }) => {
 	const orderId = match.params.id;
@@ -46,7 +47,7 @@ const OrderScreen = ({ match, location, history }) => {
 
 	useEffect(() => {
 		const addPayPalScript = async () => {
-			const { data: clientId } = await axios.get('/api/config/paypal');
+			const { data: clientId } = await axios.get(`/api/config/paypal`);
 			const script = document.createElement('script');
 			script.type = 'text/javascript';
 			script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
@@ -59,6 +60,9 @@ const OrderScreen = ({ match, location, history }) => {
 			dispatch({ type: ORDER_PAY_RESET });
 			dispatch({ type: ORDER_DELIVER_RESET });
 			dispatch(getOrderDetails(orderId));
+			if (successPay) {
+				dispatch(cartItemsReset());
+			}
 		} else if (!order.isPaid) {
 			if (!window.paypal) {
 				addPayPalScript();
@@ -113,7 +117,7 @@ const OrderScreen = ({ match, location, history }) => {
 							</p>
 							{order.isDelivered ? (
 								<Message variant='success'>
-									Delivered at {(new Date(order.deliveredAt).toString())}
+									Delivered at {new Date(order.deliveredAt).toString()}
 								</Message>
 							) : (
 								<Message variant='primary'>Not Delivered</Message>
@@ -125,7 +129,9 @@ const OrderScreen = ({ match, location, history }) => {
 								<strong>Method:</strong> {order.paymentMethod}
 							</p>
 							{order.isPaid ? (
-								<Message variant='success'>Paid on {(new Date(order.paidAt).toString())}</Message>
+								<Message variant='success'>
+									Paid on {new Date(order.paidAt).toString()}
+								</Message>
 							) : (
 								<Message variant='primary'>Not Paid</Message>
 							)}

@@ -18,6 +18,9 @@ import {
 	ORDER_DELIVER_REQUEST,
 	ORDER_DELIVER_SUCCESS,
 	ORDER_DELIVER_FAIL,
+	ORDER_PURCHASED_REQUEST,
+	ORDER_PURCHASED_SUCCESS,
+	ORDER_PURCHASED_FAIL,
 } from '../constants/orderConstants';
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -186,6 +189,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 		const {
 			userLogin: { userInfo },
 		} = getState();
+
 		const config = {
 			headers: {
 				Authorization: `Bearer ${userInfo.token}`,
@@ -200,10 +204,44 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 			type: ORDER_DELIVER_SUCCESS,
 			payload: data,
 		});
-	
 	} catch (error) {
 		dispatch({
 			type: ORDER_DELIVER_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const purchasedOrder = (productId) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: ORDER_PURCHASED_REQUEST,
+		});
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+		const config = {
+			headers: {
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+		const { data } = await axios.get(
+			`/api/orders/${productId}/ispurchased`,
+			config
+		);
+		let { success } = data;
+		console.log();
+		dispatch({
+			type: ORDER_PURCHASED_SUCCESS,
+			payload: success,
+		});
+	} catch (error) {
+		dispatch({
+			type: ORDER_PURCHASED_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message

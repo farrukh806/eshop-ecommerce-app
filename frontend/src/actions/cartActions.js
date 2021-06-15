@@ -7,8 +7,9 @@ import {
 	CART_SAVE_PAYMENT_METHOD,
 } from '../constants/cartConstants';
 
+
 export const addToCart = (id, quantity) => async (dispatch, getState) => {
-	const { data } = await axios.get(`/api/products/${id}`);
+	const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/products/${id}`);
 	dispatch({
 		type: CART_ADD_ITEM,
 		payload: {
@@ -38,8 +39,7 @@ export const savePaymentMethod = (paymentMethod) => async (dispatch) => {
 	localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
 };
 
-// TODO:
 export const cartItemsReset = () => async (dispatch) => {
 	dispatch({ type: CART_RESET });
-	localStorage.setItem('cartItems', []);
+	localStorage.setItem('cartItems', JSON.stringify([]));
 };

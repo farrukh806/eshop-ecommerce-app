@@ -34,7 +34,7 @@ export const login = (email, password) => async (dispatch) => {
 			'Content-Type': 'application/json',
 		};
 		const { data } = await axios.post(
-			'/api/users/login',
+			`/api/users/login`,
 			{ email, password },
 			config
 		);
@@ -67,7 +67,7 @@ export const register = (name, email, password) => async (dispatch) => {
 			'Content-Type': 'application/json',
 		};
 		const { data } = await axios.post(
-			'/api/users',
+			`/api/users`,
 			{ name, email, password },
 			config
 		);
@@ -147,7 +147,7 @@ export const listUsers = () => async (dispatch, getState) => {
 		const config = {
 			headers: { Authorization: `Bearer ${userInfo.token}` },
 		};
-		const { data } = await axios.get('/api/users', config);
+		const { data } = await axios.get(`/api/users`, config);
 		dispatch({ type: USER_LIST_SUCCESS, payload: data });
 	} catch (error) {
 		dispatch({
