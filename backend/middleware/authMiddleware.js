@@ -26,11 +26,11 @@ const isLoggedIn = expressAsyncHandler(async (req, res, next) => {
 });
 
 const isAdmin = expressAsyncHandler(async (req, res, next) => {
-	if(req.user && req.user.isAdmin){
+	if (req.user && req.user.isAdmin) {
 		next();
-	}else{
-		res.status(401)
-		throw new Error("Unauthorized! Access Denied.")
+	} else {
+		res.status(401);
+		throw new Error('Unauthorized! Access Denied.');
 	}
-})
+});
 export { isLoggedIn, isAdmin };

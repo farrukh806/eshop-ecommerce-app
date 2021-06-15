@@ -125,6 +125,34 @@ const updateOrderToDelivered = expressAsyncHandler(async (req, res) => {
 	}
 });
 
+// Purchased orders
+
+const getMyPurchasedOrders = expressAsyncHandler(async (req, res) => {
+	try {
+		const orders = await Order.find({
+			user: req.user._id,
+			isPaid: true,
+			isDelivered: true,
+		});
+		let isPurchased;
+		if (orders) {
+			orders.forEach((order) => {
+				order.orderItems.forEach((item) => {
+					if (item.product.toString() === req.params.id) {
+						isPurchased = true;
+					}
+				});
+			});
+			if (isPurchased) res.status(200).json({ success: true });
+			else res.status(200).json({ success: false });
+		} else {
+			res.status(404).json({ success: false });
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: error.message });
+	}
+});
 export {
 	addOrderItems,
 	getOrderById,
@@ -132,4 +160,5 @@ export {
 	updateOrderToDelivered,
 	getMyOrders,
 	getOrders,
+	getMyPurchasedOrders,
 };
