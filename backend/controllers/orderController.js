@@ -41,9 +41,11 @@ const getOrderById = expressAsyncHandler(async (req, res) => {
 	try {
 		const order = await Order.findById(req.params.id).populate({
 			path: 'user',
+			model: 'User',
 			select: 'name email',
 		});
 		if (order) {
+			console.log(order);
 			res.status(200).json(order);
 		} else {
 			res.status(404).json({ message: 'Order not found.' });
@@ -95,7 +97,8 @@ const getOrders = expressAsyncHandler(async (req, res) => {
 	try {
 		const orders = await Order.find({}).populate({
 			path: 'user',
-			select: 'name email',
+			model: 'User',
+			select: 'name',
 		});
 		res.status(200).json(orders);
 	} catch (error) {

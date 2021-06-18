@@ -140,5 +140,5 @@ export {
 	createProduct,
 	updateProduct,
 	createProductReview,
-	getTopRatedProducts
+	getTopRatedProducts,
 };
