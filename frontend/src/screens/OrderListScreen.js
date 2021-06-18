@@ -9,7 +9,6 @@ const OrderListScreen = ({ history }) => {
 	const dispatch = useDispatch();
 	const orderList = useSelector((state) => state.orderList);
 	const { loading, error, orders } = orderList;
-
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
@@ -45,8 +44,8 @@ const OrderListScreen = ({ history }) => {
 						{orders.map((order) => (
 							<tr key={order._id}>
 								<td>{order._id}</td>
-								<td>{order.user.name}</td>
-								<td>{(new Date(order.createdAt).toString())}</td>
+								<td>{order.user?.name}</td>
+								<td>{new Date(order.createdAt).toString()}</td>
 								<td>${order.totalPrice}</td>
 								<td>
 									{order.isPaid ? (

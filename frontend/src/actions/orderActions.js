@@ -234,7 +234,6 @@ export const purchasedOrder = (productId) => async (dispatch, getState) => {
 			config
 		);
 		let { success } = data;
-		console.log();
 		dispatch({
 			type: ORDER_PURCHASED_SUCCESS,
 			payload: success,
