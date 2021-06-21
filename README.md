@@ -1,7 +1,7 @@
 # eshop-ecommerce-app
-<img src="./uploads/Screenshot1.png" >
-<img src="./uploads/Screenshot2.png" >
-<img src="./uploads/Screenshot3.png" >
+<img src="./uploads/Screenshot1.png" style="height:150px;">
+<img src="./uploads/Screenshot2.png" style="height:150px;">
+<img src="./uploads/Screenshot3.png" style="height:150px;">
 #Live preview is deployed on heroku <a href="https://eshopp2021.herokuapp.com/">Click here</a>
 <ol>
   <li>User can see any products</li>
