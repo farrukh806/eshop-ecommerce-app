@@ -25,7 +25,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
 app.get('/api/config/paypal', (req, res) =>
-	res.send(process.env.PAYPAL_CLIENT_ID)
+	res.send(process.env.CLIENT_ID)
 );
 
 if (process.env.NODE_ENV === 'production') {
