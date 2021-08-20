@@ -10,4 +10,4 @@
   <li>Admin can add/remove products</li>
   <li>Admin can mark orders as <strong>delivered</strong></li>
 </ol>
-<h3 style="border:1px solid black;"> Live preview is deployed on heroku <a href="https://eshopp2021.herokuapp.com/">Click here</a></h3>
+<h3> Live preview is deployed on heroku <a href="https://eshopp2021.herokuapp.com/">Click here</a></h3>
