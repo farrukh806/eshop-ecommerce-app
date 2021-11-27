@@ -11,4 +11,4 @@
   <li>Admin can mark orders as <strong>delivered</strong></li>
 </ol>
 <h3> Live preview is deployed on heroku <a href="https://eshopp2021.herokuapp.com/">Click here</a></h3>
-<h6> Please use email: <strong>sb-5j5yp6457479@personal.example.com</strong> password: <strong>123456</strong> for payment testing.</h6>
+<h6> Please use email: <strong>sb-5j5yp6457479@personal.example.com</strong> password: <strong>12345678</strong> for payment testing.</h6>
